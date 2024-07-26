@@ -1,0 +1,213 @@
+    // jitendra17dec2 
+    // codeforces round 929 div 3 solution 
+
+    #include<bits/stdc++.h>
+    using namespace std;
+    using namespace chrono;
+    #define MOD 1000000007
+    #define MOD1 998244353
+    #define INF 1e18
+    #define nline "\n"
+    #define pb push_back
+    #define ppb pop_back
+    #define mp make_pair
+    #define ff first
+    #define ss second
+    #define PI 3.141592653589793238462
+    #define set_bits __builtin_popcountll
+    #define sz(x) ((int)(x).size())
+    #define all(x) (x).begin(), (x).end()
+    typedef long long ll;
+    typedef vector<int>vi;
+    typedef vector<long long>vl;
+    #define fastio() ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+    #define fl(i,a,b) for(int i=a; i<b; i++)
+
+    void debug(vector<int>arr){
+        for(auto &i:arr){
+            cout<<i<<" ";
+        }
+        cout<<nline;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    ll gcd(ll a, ll b) {if (b > a) {return gcd(b, a);} if (b == 0) {return a;} return gcd(b, a % b);}
+    ll expo(ll a, ll b, ll mod) {ll res = 1; while (b > 0) {if (b & 1)res = (res * a) % mod; a = (a * a) % mod; b = b >> 1;} return res;}
+    void extendgcd(ll a, ll b, ll*v) {if (b == 0) {v[0] = 1; v[1] = 0; v[2] = a; return ;} extendgcd(b, a % b, v); ll x = v[1]; v[1] = v[0] - v[1] * (a / b); v[0] = x; return;} //pass an arry of size1 3
+    ll mminv(ll a, ll b) {ll arr[3]; extendgcd(a, b, arr); return arr[0];} //for non prime b
+    ll mminvprime(ll a, ll b) {return expo(a, b - 2, b);}
+
+    ll lcm(ll a, ll b){
+        return (a*b)/gcd(a,b);
+    }
+    void debug(vector<int>&v){
+        for(auto &i:v){
+            cout<<i<<" ";
+        }
+        cout<<nline;
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    mod ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ll mod_add(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a + b) % m) + m) % m;}
+    ll mod_mul(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a * b) % m) + m) % m;}
+    ll mod_sub(ll a, ll b, ll m) {a = a % m; b = b % m; return (((a - b) % m) + m) % m;}
+    ll mod_div(ll a, ll b, ll m) {a = a % m; b = b % m; return (mod_mul(a, mminvprime(b, m), m) + m) % m;}  //only for prime m
+    ll phin(ll n) {ll number = n; if (n % 2 == 0) {number /= 2; while (n % 2 == 0) n /= 2;} for (ll i = 3; i <= sqrt(n); i += 2) {if (n % i == 0) {while (n % i == 0)n /= i; number = (number / i * (i - 1));}} if (n > 1)number = (number / n * (n - 1)) ; return number;} //O(sqrt(N))
+
+    template<typename Node, typename Update>
+struct LazySGT {
+    vector<Node> tree;
+    vector<bool> lazy;
+    vector<Update> updates;
+    vector<ll> arr; // type may change
+    int n;
+    int s;
+    LazySGT(int a_len, vector<ll> &a) { // change if type updated
+        arr = a;
+        n = a_len;
+        s = 1;
+        while(s < 2 * n){
+            s = s << 1;
+        }
+        tree.resize(s); fill(all(tree), Node());
+        lazy.resize(s); fill(all(lazy), false);
+        updates.resize(s); fill(all(updates), Update());
+        build(0, n - 1, 1);
+    }
+    void build(int start, int end, int index) { // Never change this
+        if (start == end)   {
+            tree[index] = Node(arr[start]);
+            return;
+        }
+        int mid = (start + end) / 2;
+        build(start, mid, 2 * index);
+        build(mid + 1, end, 2 * index + 1);
+        tree[index].merge(tree[2 * index], tree[2 * index + 1]);
+    }
+    void pushdown(int index, int start, int end){
+        if(lazy[index]){
+            int mid = (start + end) / 2;
+            apply(2 * index, start, mid, updates[index]);
+            apply(2 * index + 1, mid + 1, end, updates[index]);
+            updates[index] = Update();
+            lazy[index] = 0;
+        }
+    }
+    void apply(int index, int start, int end, Update& u){
+        if(start != end){
+            lazy[index] = 1;
+            updates[index].combine(u, start, end);
+        }
+        u.apply(tree[index], start, end);
+    }
+    void update(int start, int end, int index, int left, int right, Update& u) {  // Never Change this
+        if(start > right || end < left)
+            return;
+        if(start >= left && end <= right){
+            apply(index, start, end, u);
+            return;
+        }
+        pushdown(index, start, end);
+        int mid = (start + end) / 2;
+        update(start, mid, 2 * index, left, right, u);
+        update(mid + 1, end, 2 * index + 1, left, right, u);
+        tree[index].merge(tree[2 * index], tree[2 * index + 1]);
+    }
+    Node query(int start, int end, int index, int left, int right) { // Never change this
+        if (start > right || end < left)
+            return Node();
+        if (start >= left && end <= right){
+            pushdown(index, start, end);
+            return tree[index];
+        }
+        pushdown(index, start, end);
+        int mid = (start + end) / 2;
+        Node l, r, ans;
+        l = query(start, mid, 2 * index, left, right);
+        r = query(mid + 1, end, 2 * index + 1, left, right);
+        ans.merge(l, r);
+        return ans;
+    }
+    void make_update(int left, int right, ll val) {  // pass in as many parameters as required
+        Update new_update = Update(val); // may change
+        update(0, n - 1, 1, left, right, new_update);
+    }
+    Node make_query(int left, int right) {
+        return query(0, n - 1, 1, left, right);
+    }
+};
+
+struct Node1 {
+    ll val; // may change
+    Node1() { // Identity element
+        val = 0;    // may change
+    }
+    Node1(ll p1) {  // Actual Node
+        val = p1; // may change
+    }
+    void merge(Node1 &l, Node1 &r) { // Merge two child nodes
+        val = l.val+r.val;  // may change
+    }
+};
+
+struct Update1 {
+    ll val; // may change
+    Update1(){ // Identity update
+        val = 0;
+    }
+    Update1(ll val1) { // Actual Update
+        val = val1;
+    }
+    void apply(Node1 &a, int start, int end) { // apply update to given node
+        a.val += val * (end - start + 1); // may change
+    }
+    void combine(Update1& new_update, int start, int end){
+        val += new_update.val;
+    }
+};
+
+
+    int x = 1;
+    void build_euler(int curr,vector<vector<int>>&adj,int parent,
+        vector<ll>&euler,vector<int>&in_time,vector<int>&out_time){
+
+        in_time[curr] = x++;
+        euler.push_back(curr);
+        for(int child:adj[curr]){
+            if(child!=parent){
+                build_euler(child,adj,curr,euler,in_time,out_time);
+            }
+        }
+        out_time[curr] = x++;
+        euler.push_back(curr);
+
+    }
+    void solve(){
+        int n;
+        cin>>n;
+        vector<vector<int>>adj(n+1,vector<int>());
+        for(int i=0; i<n-1; i++){
+            int a,b;
+            cin>>a>>b;
+            adj[a].push_back(b);
+            adj[b].push_back(a);
+        }
+        vector<ll>euler;
+        vector<int>in_time(n+1,0);
+        vector<int>out_time(n+1,0);
+        build_euler(1,adj,-1,euler,in_time,out_time);
+         for(auto &i:euler){
+            cout<<i<<" ";
+        }
+        cout<<nline;
+        cout<<in_time[1]<<" "<<out_time[1]<<nline;
+        n = euler.size();
+        LazySGT<Node1,Update1>sgt = LazySGT<Node1,Update1>(n,euler);
+        cout<<sgt.make_query(in_time[1]-1,out_time[1]).val;
+    }
+    int main(){
+        solve();
+    }
+
+

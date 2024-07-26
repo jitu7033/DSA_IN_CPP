@@ -1,0 +1,32 @@
+graph ->  graph is nothing but connected of set of nodes and edges
+
+ n = nodes
+ e = edges
+
+ notes -->  there have any nodes and edges there is a graph every thing is a graph 
+
+ type of graph ->
+ 0. complete graph -> all the node are directly connected each and every node :
+ 1. directed 
+ 2. undirected
+ 3. directed weighted graph 
+ 4. undirected weighted graph 
+ 5. cyclic graph -> you have more than 1 path between two nodes in the graph then there must be a cyclic:
+ 6. acyclic graph -> you have less than 2 path between two nides in the grph then there must ba a acyclic:
+ 7. conncected graph -> the node are connnected one node to another from any path that is connected graph :
+ 8. disconnected graph -> you cannot go all node that is disconneted graph 
+
+ 9. cycle -> your start and ending point are same and these node are not cyclic more than two times 
+
+ 10. simple graph -> graph does not have self loop , multiple edges -> having more than one edges b/w two nodes 
+
+ 11. bridge and articulation ->  bridge-> if i remove edges from node the component split of graph in equal to 2 that is bridge , articulation-> a node which  i one remove the component split into more than 1 componenet: edges connected of this node already removed 
+
+
+ ** common result 
+   -->   the sum of all degree of graph is even 
+
+
+
+
+ * Notes --> you not given graph is directed or undirected you assume that undirected graph 
