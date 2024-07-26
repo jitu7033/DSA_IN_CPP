@@ -1,0 +1,9 @@
+static function memeber ->  a static memberfunction 	access static data member function and any otehr function from outside the class 
+
+class Box{
+	static int outer;
+}
+
+int Box::outer  = 0;
+
+// using the resolution operator identify the wich class is belong to 
