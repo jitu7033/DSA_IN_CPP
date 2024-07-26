@@ -1,0 +1,24 @@
+div{
+  font-weight: bold;
+  margin: 20px;
+}
+
+.container{
+  display: flex;
+  flex-wrap: wrap; /* it use to you can change your box direction   */
+  justify-content:center;
+}
+
+
+
+table,td,th{
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+  margin: 5px;
+}
+
+#product-menu{
+  width: 100%;
+  justify-content: center;
+}
