@@ -50,9 +50,7 @@ public class priorityQueue{
 		pq[i] = pq[j];
 		pq[j] = temp;
 	}
-
-
-
+	
 	public static void main(String[]args){
 
 	}
