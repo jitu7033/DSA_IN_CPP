@@ -27,7 +27,6 @@ int main(){
 		adj[u].push_back(v);
 		adj[v].push_back(u);
 	}
-
 	vector<int>vis(n+1,0);
 	vector<int>path;
 

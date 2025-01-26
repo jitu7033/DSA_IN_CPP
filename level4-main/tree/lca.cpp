@@ -64,6 +64,7 @@ void populatedFirstParent(int curr,vector<vector<int>>&adj,int imidiateParent,ve
             populatedFirstParent(child,adj,curr,parents);
     }
 }
+
 void buildBinaryTable(vector<vector<int>>&parents,int n, int limit){
     for(int j=1; j<limit;j++){
         for(int i=0; i<n; i++){
@@ -82,7 +83,6 @@ int  kthParent(int x, int k, vector<vector<int>>&parents){
         }
     }
     return x;
-
 }
 
 void populatedlevel(int curr,vector<vector<int>>&adj,int parents, vector<int>&level){

@@ -22,6 +22,7 @@ void __djkstra(ll node,vector<vector<pair<ll,ll>>>&adj,vector<ll>&dist){
 		}
 	}
 }
+
 void solve(){
 	int n,m;
 	cin>>n>>m;

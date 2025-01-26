@@ -1,6 +1,5 @@
 #include<bits/stdc++.h>
 using namespace std;
-
 class prority_queue{
 	private:
 		int n;
@@ -74,10 +73,8 @@ int main(){
 	pq.push(1);
 	pq.push(11);
 	pq.push(100);
-	cout<<pq.peek()<<endl;;
-
+	cout<<pq.peek()<<endl;
 	cout<<pq.pop()<<endl;
-
 	pq.print();
 	cout<<pq.peek()<<endl;
 }

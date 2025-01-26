@@ -1,7 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// this algo is using for find the topological sorted 
+
+// this algo is using for find the topological sorted
+
 
 vector<int>__kans(vector<vector<int>>&edges){
 	int n = edges.size();

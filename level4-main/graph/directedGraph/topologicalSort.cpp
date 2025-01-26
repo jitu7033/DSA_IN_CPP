@@ -15,7 +15,7 @@ void solve(){
 	cin>>n>>m;
 	vector<vector<int>>edges(n,vector<int>());
 	for(int i=0; i<m; i++){
-		int u,v;
+		int u,dv;
 		cin>>u>>v;
 		// u--;v--;
 		edges[u].push_back(v);

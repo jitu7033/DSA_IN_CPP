@@ -1,6 +1,11 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// notes 
+// 1. root is an empty node 
+// 2. prefix is not repeated 
+
+
 
 class Node{
 public:
